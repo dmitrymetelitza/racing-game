@@ -11,13 +11,13 @@ let bornCar = new Image();
 let boom = new Image();
 let sprite = new Image();
 
-taxi.src = "/racing-game/img/taxi.png";
-redCar.src = "/racing-game/img/redcar.png";
-blueCar.src = "/racing-game/img/bluecar.png";
-bornCar.src = "/racing-game/img/borncar.png";
-road.src = "/racing-game/img/Road.png";
-boom.src = "/racing-game/img/boom.png";
-sprite.src = "/racing-game/img/sprite.png";
+taxi.src = "/racing-game/game/img/taxi.png";
+redCar.src = "/racing-game/game/img/redcar.png";
+blueCar.src = "/racing-game/game/img/bluecar.png";
+bornCar.src = "/racing-game/game/img/borncar.png";
+road.src = "/racing-game/game/img/Road.png";
+boom.src = "/racing-game/game/img/boom.png";
+sprite.src = "/racing-game/game/img/sprite.png";
 
 let i = 0;
 let score = 0;
