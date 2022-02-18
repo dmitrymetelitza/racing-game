@@ -11,13 +11,13 @@ let bornCar = new Image();
 let boom = new Image();
 let sprite = new Image();
 
-taxi.src = "/img/taxi.png";
-redCar.src = "/img/redcar.png";
-blueCar.src = "/img/bluecar.png";
-bornCar.src = "/img/borncar.png";
-road.src = "/img/Road.png";
-boom.src = "/img/boom.png";
-sprite.src = "/img/sprite.png";
+taxi.src = "/racing-game/img/taxi.png";
+redCar.src = "/racing-game/img/redcar.png";
+blueCar.src = "/racing-game/img/bluecar.png";
+bornCar.src = "/racing-game/img/borncar.png";
+road.src = "/racing-game/img/Road.png";
+boom.src = "/racing-game/img/boom.png";
+sprite.src = "/racing-game/img/sprite.png";
 
 let i = 0;
 let score = 0;
@@ -39,20 +39,12 @@ let roadarr = [{ x: 0, y: 0 }];
 for (i = 0; i < 1000; i++) {
   roadarr.push({ x: 0, y: -683 * (i + 1) });
 }
-let a = false;
-start.addEventListener("click", goGame);
-function goGame() {
-  if (a == false) {
-    game();
-    a = true;
-  }
-  return;
-}
+
+sprite.onload = function () {
+  game();
+};
 
 function game() {
-  if (stop == true) {
-    return;
-  }
   update();
   render();
   requestAnimationFrame(game);
@@ -214,15 +206,3 @@ document.addEventListener("keyup", function (event) {
     down = false;
   }
 });
-
-function stop() {
-  cancelAnimationFrame(game);
-  a = false;
-  ctx.font = "60px Arial";
-  ctx.fillStyle = "Red";
-  ctx.fillText("Game over", 200, 200);
-  stop = true;
-}
-ctx.font = "60px Arial";
-ctx.fillStyle = "Red";
-ctx.fillText("Game over", 200, 200);
