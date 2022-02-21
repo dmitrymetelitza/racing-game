@@ -8,7 +8,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgb(48, 43, 43);
+  background-image: url(/racing-game/game/img/poster.jpeg);
 }
 
 footer {

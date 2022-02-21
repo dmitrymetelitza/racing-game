@@ -192,7 +192,7 @@ function update() {
   }
   // Подсчет очков
   if (timer % 10 == 0) {
-    let a = (speed + carSpeed * 2) / 10;
+    let a = (speed + carSpeed * 10) / 10;
     score = Math.floor(a) + score;
   }
 }
