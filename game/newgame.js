@@ -10,6 +10,12 @@ let blueCar = new Image();
 let bornCar = new Image();
 let boom = new Image();
 let sprite = new Image();
+let loos = new Audio();
+let win = new Audio();
+let tormoz = new Audio();
+let speedup = new Audio();
+let fonmusic = new Audio();
+let ydar = new Audio();
 
 taxi.src = "/racing-game/game/img/taxi.png";
 redCar.src = "/racing-game/game/img/redcar.png";
@@ -18,14 +24,22 @@ bornCar.src = "/racing-game/game/img/borncar.png";
 road.src = "/racing-game/game/img/Road.png";
 boom.src = "/racing-game/game/img/boom.png";
 sprite.src = "/racing-game/game/img/sprite.png";
+loos.src = "/racing-game/game/audio/loos.mp3";
+win.src = "/racing-game/game/audio/win.mp3";
+tormoz.src = "/racing-game/game/audio/tormoz.mp3";
+speedup.src = "/racing-game/game/audio/speedup.mp3";
+fonmusic.src = "/racing-game/game/audio/lil_jon.mp3";
+ydar.src = "/racing-game/game/audio/ydar.mp3";
 
 let i = 0;
 let score = 0;
-let lives = 5;
+let lives = 2;
 let level = 0;
 let timer = 0;
 let carSpeed = 0;
 let speed = 10;
+let finish = false;
+let stop = false;
 let left = false;
 let right = false;
 let up = false;
@@ -45,13 +59,31 @@ sprite.onload = function () {
 };
 
 function game() {
+  fonmusic.play();
   update();
   render();
-  requestAnimationFrame(game);
+  let anim = requestAnimationFrame(game);
+  if (stop === true) {
+    cancelAnimationFrame(anim);
+    loos.play();
+    fonmusic.pause();
+    if (score > localStorage.getItem("top10", score)) {
+      localStorage.setItem("top10", score);
+    }
+    return;
+  }
+  if (finish == true) {
+    cancelAnimationFrame(anim);
+    win.play();
+    fonmusic.pause();
+    if (score > localStorage.getItem("top10", score)) {
+      localStorage.setItem("top10", score);
+    }
+    return;
+  }
 }
 
 function update() {
-  console.log(roadarr);
   for (i in roadarr) {
     roadarr[i].y = roadarr[i].y + speed + carSpeed;
     if (roadarr[i].y > 1000) {
@@ -91,15 +123,20 @@ function update() {
       autoXY.splice(i, 1);
     }
     if (
-      autoXY[i].x + 58 > taxiXY.x &&
-      autoXY[i].x < taxiXY.x + 40 &&
+      typeof autoXY[i].y !== "undefined" &&
+      typeof autoXY[i].x !== "undefined" &&
+      typeof taxiXY.y !== "undefined" &&
+      typeof taxiXY.x !== "undefined" &&
       autoXY[i].y < taxiXY.y + 117 &&
-      autoXY[i].y + 117 > taxiXY.y
+      autoXY[i].y + 117 > taxiXY.y &&
+      autoXY[i].x < taxiXY.x + 40 &&
+      autoXY[i].x + 58 > taxiXY.x
     ) {
       autoXY.splice(i, 1);
       lives--;
+      ydar.play();
       if (lives < 1) {
-        stop();
+        stop = true;
       }
     }
   }
@@ -109,15 +146,16 @@ function update() {
       autoBlueXY.splice(i, 1);
     }
     if (
-      autoBlueXY[i].x + 58 > taxiXY.x &&
-      autoBlueXY[i].x < taxiXY.x + 40 &&
       autoBlueXY[i].y < taxiXY.y + 117 &&
-      autoBlueXY[i].y + 117 > taxiXY.y
+      autoBlueXY[i].y + 117 > taxiXY.y &&
+      autoBlueXY[i].x < taxiXY.x + 40 &&
+      autoBlueXY[i].x + 58 > taxiXY.x
     ) {
       autoBlueXY.splice(i, 1);
       lives--;
+      ydar.play();
       if (lives < 1) {
-        stop();
+        stop = true;
       }
     }
   }
@@ -136,21 +174,25 @@ function update() {
 
   if (timer % 100 == 0) {
     autoXY.push({
-      x: Math.floor(Math.random() * (430 + 1)),
-      y: -Math.floor(100 + Math.random() * (2500 + 1 - 100)),
+      x: Math.floor(Math.random() * 430),
+      y: -700,
     });
     autoBlueXY.push({
-      x: Math.floor(Math.random() * (430 + 1)),
-      y: -Math.floor(100 + Math.random() * (2500 + 1 - 100)),
+      x: Math.floor(Math.random() * 430),
+      y: -850,
     });
   }
+
   if (timer % 1000 == 0) {
     speed++;
     level++;
+    if (level >= 5) {
+      finish = true;
+    }
   }
   // Подсчет очков
   if (timer % 10 == 0) {
-    let a = (speed + carSpeed) / 10;
+    let a = (speed + carSpeed * 2) / 10;
     score = Math.floor(a) + score;
   }
 }
@@ -166,6 +208,17 @@ function render() {
   ctx.fillText("Score: " + score, 10, 40);
   ctx.fillText("Level: " + level, 380, 40);
   ctx.fillText("Lives: " + lives, 200, 40);
+  ctx.fillText("Best score: " + localStorage.getItem("top10"), 10, 80);
+  if (stop == true) {
+    ctx.font = "80px Arial";
+    ctx.fillStyle = "Red";
+    ctx.fillText("Game over", 50, 300);
+  }
+  if (finish == true) {
+    ctx.font = "80px Arial";
+    ctx.fillStyle = "Red";
+    ctx.fillText("You Win", 100, 300);
+  }
 }
 
 cvs.addEventListener("mousemove", leftG);
@@ -190,6 +243,7 @@ document.addEventListener("keydown", function (event) {
   }
   if (event.code == "ArrowDown") {
     down = true;
+    tormoz.play();
   }
 });
 document.addEventListener("keyup", function (event) {
@@ -204,5 +258,7 @@ document.addEventListener("keyup", function (event) {
   }
   if (event.code == "ArrowDown") {
     down = false;
+    tormoz.currentTime = 0;
+    tormoz.pause();
   }
 });
