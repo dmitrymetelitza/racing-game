@@ -8,5 +8,47 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgb(0, 0, 0);
+  background: rgb(48, 43, 43);
+}
+
+footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  text-shadow: 1px 1px 20px #445f5e;
+  text-decoration: none;
+}
+
+.git {
+  margin-top: 27px;
+  margin-left: 10px;
+  text-decoration: none;
+}
+
+.git a {
+  text-decoration: none;
+  color: white;
+}
+
+.year {
+  margin-top: 15px;
+  margin-left: 60px;
+}
+
+.rss {
+  margin-top: 25px;
+  margin-right: 10px;
+}
+
+.rss a {
+  text-decoration: none;
+  color: white;
 }
